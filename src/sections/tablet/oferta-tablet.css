@@ -48,7 +48,10 @@
 .oferta-t__price-base,
 .oferta-t__price-shine {
   grid-area: 1 / 1;
-  font-size: clamp(74px, 13vw, 132px);
+  /* Mesma redução proporcional do desktop. Aqui havia folga de sobra — o
+     preço novo caberia até sem mexer —, mas manter a pegada igual deixa as
+     três variantes com o mesmo peso visual. */
+  font-size: clamp(56px, 9.85vw, 100px);
   line-height: 1;
   letter-spacing: 0.1033em;
 }

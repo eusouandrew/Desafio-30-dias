@@ -34,10 +34,10 @@ export default function OfertaTablet({ ctaHref }) {
               preço, a de cima é só o brilho recortado no texto. */}
           <div className="oferta-t__price">
             <div className="oferta-t__price-base">
-              <span>R$297</span>
+              <span>R$79,99</span>
             </div>
             <div className="oferta-t__price-shine" aria-hidden="true">
-              <span>R$297</span>
+              <span>R$79,99</span>
             </div>
           </div>
 

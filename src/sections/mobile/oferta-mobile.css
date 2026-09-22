@@ -123,7 +123,11 @@
      partir do centro exato quando o peso anima */
   padding-left: 0.055em;
   white-space: nowrap;
-  font-size: 72px;
+  /* 55, não 72: mesma redução das outras variantes. Aqui o limite é o card
+     (34 a 356 no canvas) — sem reduzir, o preço novo encostaria nas duas
+     bordas. O tamanho do contêiner fica em 68px porque é ele que dá a
+     line-height e a altura da caixa. */
+  font-size: 55px;
 }
 
 /* Dois seletores para vencer o `animation` de .cta, que tem a mesma

@@ -435,6 +435,43 @@ longas, que pedem 383 e 429px contra 307 disponíveis. É o que o `overflowY:
 auto` condicional cobre. Se incomodar, as saídas são aumentar a caixa (mas
 ela já fecha rente ao pé da foto) ou encurtar esses dois textos.
 
+## Preço — mudar o valor quase sempre mexe no `font-size`
+
+O preço vive em quatro lugares: `PRICE` em `Oferta.jsx` e em
+`mobile/OfertaMobile.jsx`, e dois `<span>` em `tablet/OfertaTablet.jsx` — o
+segundo é a camada do brilho, que repete o texto.
+
+A caixa é apertada por desenho e a fonte é enorme, então **poucos caracteres a
+mais estouram o espaço**. Em 22/09 o valor passou de `R$297` para `R$79,99` —
+dois caracteres a mais, **32% mais largo** — e os três tamanhos caíram:
+
+| | antes | agora | o que limita |
+|---|---|---|---|
+| Desktop | 174,225px | 134px | o recorte da foto, que começa em 719 do canvas |
+| Tablet | `clamp(74px, 13vw, 132px)` | `clamp(56px, 9.85vw, 100px)` | nada: cabia sem mexer, reduzido só por consistência |
+| Mobile | 55px no `span` (era 72) | 55px | as bordas do card, em 34..356 do canvas |
+
+O critério foi **preservar a pegada anterior**, não preencher o espaço: em
+todas as três o preço novo ocupa a mesma largura que o antigo ocupava. No
+desktop isso é exato — 655px, de 104 a 759 do canvas, igual ao `R$297`.
+
+Duas armadilhas ao remedir:
+
+- **Meça no peso 900.** A animação `price-weight` oscila o peso entre 600 e
+  900 e isso muda a largura do texto em ~3%. Congele a animação antes.
+- **O mobile tem dois `font-size`.** O contêiner fica em 68px (é ele que dá a
+  `line-height` e a altura da caixa) e o `span` sobrescreve. Mexa no `span`.
+
+As `line-height` ficam nos valores antigos de propósito: as caixas são flex
+com `align-items: center`, então o texto menor se centraliza sozinho e o ritmo
+vertical não muda.
+
+**Os protótipos em `design/` continuam com `R$297` e os tamanhos antigos.**
+São export do Claude Design, não código: editá-los aqui seria desfeito no
+próximo handoff. Uma sonda comparando a Oferta contra o protótipo vai acusar
+diferença no preço — **é esperado, não é regressão**. O valor precisa ser
+trocado no Claude Design.
+
 ## Como verificar mudanças de responsividade
 
 O que pegou os bugs reais foi medição, não olhar. Duas técnicas:

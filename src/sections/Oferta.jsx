@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import './oferta.css';
 import { ANCORA_OFERTA } from '../config.js';
 
-const PRICE = 'R$297';
+const PRICE = 'R$79,99';
 
 export default function Oferta({ ctaHref }) {
   const bgPhoto = useRef(null);

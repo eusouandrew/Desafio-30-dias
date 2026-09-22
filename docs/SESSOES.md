@@ -6,6 +6,47 @@ caminhos errados — para ninguém refazê-los.
 
 ---
 
+## 22/09/2026 — Preço de R$297 para R$79,99
+
+Mudança de valor pedida pelo cliente. Parecia troca de texto; exigiu recalcular
+o `font-size` das três variantes.
+
+`R$79,99` tem dois caracteres a mais e fica **32% mais largo** — medido com a
+fonte real, no peso 900, que é o estado mais largo da animação `price-weight`.
+Sem reduzir, o preço do desktop passaria de 655 para 852px (invadindo a foto e
+quase encostando na borda do card) e o do mobile encostaria nas duas bordas.
+
+Critério: **preservar a pegada anterior**, não preencher o espaço. No desktop o
+resultado é exato — 655px, de 104 a 759 do canvas, idêntico ao `R$297`.
+
+| | antes | agora |
+|---|---|---|
+| Desktop | 174,225px | 134px |
+| Tablet | `clamp(74px, 13vw, 132px)` | `clamp(56px, 9.85vw, 100px)` |
+| Mobile | 72px no `span` | 55px |
+
+No tablet **não era necessário**: havia 120px de folga e o preço novo cabia sem
+mexer. Reduzi para as três ficarem com o mesmo peso visual. Se um dia quiserem
+o preço maior, o tablet é onde sobra espaço.
+
+### O tropeço que vale registrar
+
+Fiz esta mudança primeiro em cima da `loading-intro` e só descobri a branch
+`integracao` — 31 commits à frente, com Vídeo, FAQ, assets em `.webp` e a
+Oferta rediagramada — **depois de já ter comitado e publicado** a branch
+`preco-79-99`. Lá o bloco do preço já tinha sido ampliado em 1,15x
+(174,225px), então os 115px que eu havia calculado estavam calibrados contra
+um layout que não existia mais.
+
+Refiz em cima da `integracao`, medindo de novo. A branch `preco-79-99` ficou
+órfã no remoto e pode ser apagada.
+
+Lição: antes de começar, `git fetch` e olhar as branches do remoto. Eu tinha
+clonado o repo no início da sessão e tratei o estado daquele momento como
+atual por quase dois meses de trabalho paralelo.
+
+---
+
 ## 28/07/2026 (noite) — Desalinhamento do desktop em tela grande
 
 O cliente reportou o desktop "bem quebrado" depois da mudança de escala.
