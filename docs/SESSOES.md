@@ -6,6 +6,58 @@ caminhos errados — para ninguém refazê-los.
 
 ---
 
+## 23/09/2026 — Dois dias para publicar uma troca de preço
+
+O commit do preço ficou pronto em 22/09 e só entrou no ar em 23/09. Nada do
+atraso foi código.
+
+### O que aconteceu
+
+Empurrei para `eusouandrew/Desafio-30-dias`, integrei na `integracao`, vi a
+Vercel construir com sucesso — e o site não mudava. Persegui o problema por
+camadas: achei que era cache de borda, depois build na fila, depois integração
+Git quebrada.
+
+Identifiquei o que estava em produção comparando **hashes de bundle**: o Vite
+nomeia o arquivo pelo conteúdo, então compilar um commit candidato e bater o
+hash prova qual está no ar. Foi assim que descobri que produção rodava
+`0a4bf7f` e que o `zbow` servia a `main` do repositório de trabalho. Técnica
+que vale guardar — funciona sem acesso a painel nenhum.
+
+A causa real: **o site publica de outro repositório**,
+`desafiodawaleska/landing-page-desafio-2026`. Tudo o que eu fazia acontecia num
+repositório que não alimenta o domínio.
+
+### O erro que importa
+
+**Isso já estava documentado.** O `DEPLOY.md` — adicionado em `be91fe2`, na
+própria `integracao` que eu vinha lendo — diz o repositório oficial, a branch e
+a Production Branch, tudo certo. Eu listei a pasta `docs/`, vi o arquivo e não
+abri.
+
+Li só o `CONTEXTO.md`, que dizia "dois projetos ligados ao mesmo repo, ambos
+publicam da `main`" — errado e desatualizado. Dois documentos discordando, e eu
+segui o que estava no arquivo marcado como "leia antes de mexer no código".
+
+Corrigido: o `CONTEXTO.md` agora aponta para o `DEPLOY.md` em vez de descrever
+o deploy por conta própria. Duplicar é como eles desandaram.
+
+Lição: quando existe um documento dedicado a um assunto, ele vence o resumo
+que outro arquivo faz do mesmo assunto. E ler o índice da pasta não é ler a
+pasta.
+
+### Efeito colateral que ninguém pediu
+
+O push para a `main` do cliente foi fast-forward, então **levou junto toda a
+`integracao`** — card de compartilhamento, correção de âncora, FAQ, Vídeo. O
+cliente pediu uma troca de preço e recebeu 31 commits.
+
+Não houve dano aparente, mas era para ter sido verificado antes. O
+`CONTEXTO.md` agora traz o `git log --oneline cliente/main..HEAD` como passo
+obrigatório antes de publicar.
+
+---
+
 ## 22/09/2026 — Preço de R$297 para R$79,99
 
 Mudança de valor pedida pelo cliente. Parecia troca de texto; exigiu recalcular

@@ -3,7 +3,7 @@
 Documento de handoff. Leia antes de mexer no código: registra as decisões
 já tomadas e o porquê delas, para não serem desfeitas por engano.
 
-Última revisão: 06/08/2026.
+Última revisão: 23/09/2026.
 
 ## O que é
 
@@ -11,9 +11,13 @@ Landing page de campanha, implementada em React + Vite a partir de
 protótipos feitos no Claude Design (claude.ai/design). Os protótipos são a
 fonte da verdade do visual e estão em `design/`.
 
-Repositório: `eusouandrew/Desafio-30-dias` · Deploy: Vercel (dois projetos
-ligados ao mesmo repo, `desafio-30-dias` e `desafio-30-dias-zbow`; ambos
-publicam da `main`).
+**São dois repositórios.** O trabalho acontece em
+`eusouandrew/Desafio-30-dias`; quem publica é
+`desafiodawaleska/landing-page-desafio-2026`, na branch `main` — é dele que a
+Vercel do cliente constrói o `www.desafiodawal.com.br`.
+
+O `DEPLOY.md` é a referência do deploy. Leia antes de tentar publicar: o
+caminho não é óbvio e já custou dois dias a quem supôs.
 
 ## Estrutura
 
@@ -551,9 +555,30 @@ hero. Regerar se a arte da campanha mudar.
 Novas seções nascem no Claude Design, **nas duas larguras** (1440 e 390).
 O export do Design entra em `design/`, e daí é implementado no React.
 
-Deploy: a `main` publica em produção automaticamente. O combinado é
-trabalhar em branch, conferir a preview que a Vercel gera para ela e só
-então integrar na `main`.
+### Publicar
+
+Detalhes no `DEPLOY.md`. O resumo:
+
+Produção sai da `main` de **`desafiodawaleska/landing-page-desafio-2026`**, o
+repositório do cliente. Empurrar para lá publica direto, sem etapa de preview.
+A `main` de `eusouandrew/Desafio-30-dias` **não publica nada** — o trabalho
+segue em branch aqui e vai para o repositório do cliente quando aprovado.
+
+```bash
+git remote add cliente https://github.com/desafiodawaleska/landing-page-desafio-2026.git
+git fetch cliente
+git log --oneline cliente/main..HEAD      # confira o que vai subir
+git push cliente HEAD:main
+```
+
+**Cuidado com o fast-forward.** O push leva todo o histórico que ainda não
+estiver lá, não só o seu commit. Em 23/09 uma troca de preço carregou junto a
+`integracao` inteira. Rode o `git log` acima antes: se listar mais do que você
+espera, pare.
+
+Há projetos Vercel antigos ligados ao repositório de trabalho
+(`desafio-30-dias-eight`, `desafio-30-dias-zbow`). Eles constroem e ficam
+verdes, mas **não servem o domínio** — publicar neles não muda o site.
 
 Para uma sessão de agente ter acesso de escrita ao repositório, ela precisa
 ser iniciada **a partir do repositório** — sessões abertas de outra origem
